@@ -30,7 +30,6 @@ async function apiCall(path, method = "GET", body = null) {
 }
 // Baad mein
 
-
 const CAT_ICONS = { Dairy: "🥛", Sweets: "🍬", Snacks: "🥨", Tandoor: "🔥", All: "🏪" };
 const CAT_COLORS = { Dairy: "#3b82f6", Sweets: "#ec4899", Snacks: "#f59e0b", Tandoor: "#ef4444" };
 
