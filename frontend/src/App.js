@@ -30,7 +30,7 @@ async function apiCall(path, method = "GET", body = null) {
 }
 // Baad mein
 
-const CAT_ICONS = { Snacks: "🥨", Tandoor: "🔥", All: "🏪", Dahi: "🥛", "Dry Fruit Thal": "🎁", "Extra Items": "➕", Amul: "🧈", Cookies: "🍪", GHEWAR: "🍮" };
+const CAT_ICONS = { Snacks: "🥨", Tandoor: "🔥", All: "🏪", Dahi: "🥛", "Dry Fruit Thal": "🎁", "Extra Items": "➕", Amul: "🧈", Cookies: "🍪", GHEWAR: "🍮", GUNJIA: "🥟", Kachori: "🫓", Paneer: "🧀", Milk: "🥛", Namkeen: "🧂", Other: "📦", "Gravy Items": "🍛" };
 const CAT_COLORS = { Snacks: "#f59e0b", Tandoor: "#ef4444" };
 // ─── UTILITY FUNCTIONS ────────────────────────────────────────────────────────
 function formatINR(n) {
