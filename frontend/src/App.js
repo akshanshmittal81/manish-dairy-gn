@@ -30,8 +30,8 @@ async function apiCall(path, method = "GET", body = null) {
 }
 // Baad mein
 
-const CAT_ICONS = { Sweets: "🍬", Snacks: "🥨", Tandoor: "🔥", All: "🏪", Dahi: "🥛", "Dry Fruit Thal": "🎁", "Extra Items": "➕", Amul: "🧈", Cookies: "🍪", GHEWAR: "🍮" };
-const CAT_COLORS = { Sweets: "#ec4899", Snacks: "#f59e0b", Tandoor: "#ef4444" };
+const CAT_ICONS = { Snacks: "🥨", Tandoor: "🔥", All: "🏪", Dahi: "🥛", "Dry Fruit Thal": "🎁", "Extra Items": "➕", Amul: "🧈", Cookies: "🍪", GHEWAR: "🍮" };
+const CAT_COLORS = { Snacks: "#f59e0b", Tandoor: "#ef4444" };
 // ─── UTILITY FUNCTIONS ────────────────────────────────────────────────────────
 function formatINR(n) {
   return "₹" + Number(n).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -540,7 +540,7 @@ function BillingView({ products, filtered, bills, category, setCategory, search,
     <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 20, alignItems: "start" }}>
       <div style={{ display: "flex", gap: 16 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 4, width: 100, flexShrink: 0 }}>
-         {["All", ...["Sweets","Snacks","Tandoor"], ...dbCats].map(c => (
+         {["All", ...["Snacks","Tandoor"], ...dbCats].map(c => (
             <button key={c} onClick={() => setCategory(c)} style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 5, padding: "12px 8px", borderRadius: 14, border: "2px solid", borderColor: category === c ? (CAT_COLORS[c] || "#f59e0b") : "#e5e0d8", background: category === c ? (CAT_COLORS[c] || "#f59e0b") : "#fff", color: category === c ? "#fff" : "#4a3f35", fontSize: 12, fontWeight: category === c ? 800 : 500, cursor: "pointer", transition: "all 0.15s", boxShadow: category === c ? `0 4px 12px ${(CAT_COLORS[c] || "#f59e0b")}44` : "none" }}>
              <span style={{ fontSize: 20 }}>{CAT_ICONS[c] || "🏷️"}</span>
               {c}
@@ -723,11 +723,11 @@ const popBtn = { width: 44, height: 44, borderRadius: 10, border: "1.5px solid #
 
 // ─── PRODUCTS VIEW ────────────────────────────────────────────────────────────
 function ProductsView({ products, onSave, onDelete, dbCats, setDbCats }) {
-  const [form, setForm] = useState({ name: "", category: "Sweets", price: "", cost: "", unit: "kg" });
+  const [form, setForm] = useState({ name: "", category: "Snacks", price: "", cost: "", unit: "kg" });
   const [editing, setEditing] = useState(null);
   const [search, setSearch] = useState("");
   const [saving, setSaving] = useState(false);
-const [cats, setCats] = useState([...["Sweets", "Snacks", "Tandoor"], ...dbCats]);      // ← YEH ADD KARO
+const [cats, setCats] = useState([...["Snacks", "Tandoor"], ...dbCats]);      // ← YEH ADD KARO
   const [newCat, setNewCat] = useState("");    
   const addCategory = async () => {
     const trimmed = newCat.trim();
@@ -758,7 +758,7 @@ const save = async () => {
     const ok = await onSave(form, editing);
     if (ok) {
       setEditing(null);
-      setForm({ name: "", category: "Sweets", price: "", cost: "", unit: "kg" });
+      setForm({ name: "", category: "Snacks", price: "", cost: "", unit: "kg" });
     }
     setSaving(false);
   };
@@ -827,7 +827,7 @@ const save = async () => {
           </div>
         )}
         <div style={{ display: "flex", gap: 8 }}>
-          {editing && <button onClick={() => { setEditing(null); setForm({ name: "", category: "Sweets", price: "", cost: "", unit: "kg" }); }} style={{ flex: "0 0 44px", height: 44, borderRadius: 10, border: "1px solid #e5e0d8", background: "#fff", cursor: "pointer", color: "#8a7e6e", display: "flex", alignItems: "center", justifyContent: "center" }}><Icon name="close" size={16} /></button>}
+          {editing && <button onClick={() => { setEditing(null); setForm({ name: "", category: "Snacks", price: "", cost: "", unit: "kg" }); }} style={{ flex: "0 0 44px", height: 44, borderRadius: 10, border: "1px solid #e5e0d8", background: "#fff", cursor: "pointer", color: "#8a7e6e", display: "flex", alignItems: "center", justifyContent: "center" }}><Icon name="close" size={16} /></button>}
           <button onClick={save} disabled={saving} style={{ flex: 1, padding: "11px", background: "#1a1310", color: "#f59e0b", border: "none", borderRadius: 10, fontWeight: 800, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, opacity: saving ? 0.7 : 1 }}>
             <Icon name="save" size={16} /> {saving ? "Saving..." : editing ? "Update" : "Add Product"}
           </button>
