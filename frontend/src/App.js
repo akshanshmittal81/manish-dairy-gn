@@ -753,7 +753,7 @@ const [cats, setCats] = useState([...["Snacks", "Tandoor"], ...dbCats]);      //
 };
 
 const save = async () => {
-    if (!form.name || !form.price || !form.cost) return;
+    if (!form.name || form.price === "" || form.cost === "") return;
     setSaving(true);
     const ok = await onSave(form, editing);
     if (ok) {
