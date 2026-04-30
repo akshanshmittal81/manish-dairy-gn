@@ -238,14 +238,14 @@ export default function App() {
   const [products, setProducts] = useState([]);
   const [bills, setBills] = useState([]);
   const [customers, setCustomers] = useState([]);
-const [dbCats, setDbCats] = useState([]);
-const [loading, setLoading] = useState(true);
+  const [dbCats, setDbCats] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const [cart, setCart] = useState([]);
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
-// search change hone par selected clear karo
+  // search change hone par selected clear karo
   const [customerForm, setCustomerForm] = useState({ name: "", phone: "" });
   const [discount, setDiscount] = useState(0);
 
@@ -253,16 +253,16 @@ const [loading, setLoading] = useState(true);
     async function loadAll() {
       try {
         setLoading(true);
-       const [prods, bls, custs, cats] = await Promise.all([
-  apiCall("/products"),
-  apiCall("/bills"),
-  apiCall("/customers"),
-  apiCall("/categories"),
-]);
-setProducts(prods);
-setBills(bls);
-setCustomers(custs);
-setDbCats(cats);
+        const [prods, bls, custs, cats] = await Promise.all([
+          apiCall("/products"),
+          apiCall("/bills"),
+          apiCall("/customers"),
+          apiCall("/categories"),
+        ]);
+        setProducts(prods);
+        setBills(bls);
+        setCustomers(custs);
+        setDbCats(cats);
       } catch (e) {
         setError("Server se connect nahi ho paya. Backend chal raha hai? " + e.message);
       } finally {
@@ -411,17 +411,6 @@ setDbCats(cats);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh", background: "#f8f5f0", fontFamily: "'Segoe UI', sans-serif" }}>
-      <Navbar view={view} setView={setView} onLogout={() => {
-        localStorage.clear();
-        setToken(null);
-      }} />
-      <div style={{ padding: "24px", maxWidth: 1400, margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
-          {view === "billing" && <BillingView products={products} filtered={filtered} bills={bills} category={category} setCategory={setCategory} search={search} setSearch={setSearch} cart={cart} setCart={setCart} addToCart={addToCart} updateQty={updateQty} setQtyPreset={setQtyPreset} cartTotal={cartTotal} cartSubtotal={cartSubtotal} discountAmt={discountAmt} discount={discount} setDiscount={setDiscount} customerForm={customerForm} setCustomerForm={setCustomerForm} checkoutBill={checkoutBill} dbCats={dbCats} />}
-       {view === "products" && <ProductsView products={products} onSave={handleSaveProduct} onDelete={handleDeleteProduct} dbCats={dbCats} setDbCats={setDbCats} />}
-        {view === "sales" && <SalesView bills={bills} onDelete={handleDeleteBill} onDeleteAll={handleDeleteAllBills} onEdit={handleEditBill} products={products} />}
-        {view === "analytics" && <AnalyticsView bills={bills} />}
-        {view === "customers" && <CustomersView customers={customers} bills={bills} setCart={setCart} setView={setView} />}
-      </div>
       {/* Footer */}
       <div style={{
         backgroundColor: "#1a1310",
@@ -432,6 +421,19 @@ setDbCats(cats);
       }}>
         Developed by <strong style={{ color: "#f59e0b" }}>Aniket Kansal</strong> & <strong style={{ color: "#f59e0b" }}>Akshansh Mittal</strong>
         &nbsp;|&nbsp; 📞 +91-8126700718 & +91-8766392706
+      </div>
+
+
+      <Navbar view={view} setView={setView} onLogout={() => {
+        localStorage.clear();
+        setToken(null);
+      }} />
+      <div style={{ padding: "24px", maxWidth: 1400, margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
+        {view === "billing" && <BillingView products={products} filtered={filtered} bills={bills} category={category} setCategory={setCategory} search={search} setSearch={setSearch} cart={cart} setCart={setCart} addToCart={addToCart} updateQty={updateQty} setQtyPreset={setQtyPreset} cartTotal={cartTotal} cartSubtotal={cartSubtotal} discountAmt={discountAmt} discount={discount} setDiscount={setDiscount} customerForm={customerForm} setCustomerForm={setCustomerForm} checkoutBill={checkoutBill} dbCats={dbCats} />}
+        {view === "products" && <ProductsView products={products} onSave={handleSaveProduct} onDelete={handleDeleteProduct} dbCats={dbCats} setDbCats={setDbCats} />}
+        {view === "sales" && <SalesView bills={bills} onDelete={handleDeleteBill} onDeleteAll={handleDeleteAllBills} onEdit={handleEditBill} products={products} />}
+        {view === "analytics" && <AnalyticsView bills={bills} />}
+        {view === "customers" && <CustomersView customers={customers} bills={bills} setCart={setCart} setView={setView} />}
       </div>
     </div>
   );
@@ -540,9 +542,9 @@ function BillingView({ products, filtered, bills, category, setCategory, search,
     <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 20, alignItems: "start" }}>
       <div style={{ display: "flex", gap: 16 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 4, width: 100, flexShrink: 0 }}>
-         {["All", ...["Snacks","Tandoor"], ...dbCats].map(c => (
+          {["All", ...["Snacks", "Tandoor"], ...dbCats].map(c => (
             <button key={c} onClick={() => setCategory(c)} style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 5, padding: "12px 8px", borderRadius: 14, border: "2px solid", borderColor: category === c ? (CAT_COLORS[c] || "#f59e0b") : "#e5e0d8", background: category === c ? (CAT_COLORS[c] || "#f59e0b") : "#fff", color: category === c ? "#fff" : "#4a3f35", fontSize: 12, fontWeight: category === c ? 800 : 500, cursor: "pointer", transition: "all 0.15s", boxShadow: category === c ? `0 4px 12px ${(CAT_COLORS[c] || "#f59e0b")}44` : "none" }}>
-             <span style={{ fontSize: 20 }}>{CAT_ICONS[c] || "🏷️"}</span>
+              <span style={{ fontSize: 20 }}>{CAT_ICONS[c] || "🏷️"}</span>
               {c}
             </button>
           ))}
@@ -727,8 +729,8 @@ function ProductsView({ products, onSave, onDelete, dbCats, setDbCats }) {
   const [editing, setEditing] = useState(null);
   const [search, setSearch] = useState("");
   const [saving, setSaving] = useState(false);
-const [cats, setCats] = useState([...["Snacks", "Tandoor"], ...dbCats]);      // ← YEH ADD KARO
-  const [newCat, setNewCat] = useState("");    
+  const [cats, setCats] = useState([...["Snacks", "Tandoor"], ...dbCats]);      // ← YEH ADD KARO
+  const [newCat, setNewCat] = useState("");
   const addCategory = async () => {
     const trimmed = newCat.trim();
     if (!trimmed || cats.includes(trimmed)) return;
@@ -741,18 +743,18 @@ const [cats, setCats] = useState([...["Snacks", "Tandoor"], ...dbCats]);      //
       alert("Category save nahi hui: " + e.message);
     }
   };
- const deleteCategory = async (catName) => {
-  if (!window.confirm(`"${catName}" category delete karein?`)) return;
-  try {
-    await apiCall(`/categories/${catName}`, "DELETE");
-    setDbCats(prev => prev.filter(c => c !== catName));
-    setCats(prev => prev.filter(c => c !== catName));
-  } catch (e) {
-    alert("Delete nahi hui: " + e.message);
-  }
-};
+  const deleteCategory = async (catName) => {
+    if (!window.confirm(`"${catName}" category delete karein?`)) return;
+    try {
+      await apiCall(`/categories/${catName}`, "DELETE");
+      setDbCats(prev => prev.filter(c => c !== catName));
+      setCats(prev => prev.filter(c => c !== catName));
+    } catch (e) {
+      alert("Delete nahi hui: " + e.message);
+    }
+  };
 
-const save = async () => {
+  const save = async () => {
     if (!form.name || form.price === "" || form.cost === "") return;
     setSaving(true);
     const ok = await onSave(form, editing);
@@ -793,25 +795,25 @@ const save = async () => {
             {cats.map(c => <option key={c}>{c}</option>)}
           </select>
           <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
-  <input
-    value={newCat}
-    onChange={e => setNewCat(e.target.value)}
-    onKeyDown={e => e.key === "Enter" && addCategory()}
-    placeholder="Nai category..."
-    style={{ flex: 1, padding: "7px 10px", border: "1px solid #e5e0d8", borderRadius: 8, fontSize: 13, outline: "none" }}
-  />
-  <button onClick={addCategory} style={{ padding: "7px 14px", background: "#1a1310", color: "#f59e0b", border: "none", borderRadius: 8, fontWeight: 800, fontSize: 13, cursor: "pointer" }}>
-    + Add
-  </button>
-</div>
-<div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
- {cats.map(c => (
-    <span key={c} style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "#f0ebe4", borderRadius: 20, padding: "4px 10px", fontSize: 12, fontWeight: 600, color: "#4a3f35" }}>
-      {c}
-      <button onClick={() => deleteCategory(c)} style={{ background: "none", border: "none", cursor: "pointer", color: "#ef4444", fontWeight: 900, fontSize: 13, padding: 0, lineHeight: 1 }}>✕</button>
-    </span>
-  ))}
-</div>
+            <input
+              value={newCat}
+              onChange={e => setNewCat(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && addCategory()}
+              placeholder="Nai category..."
+              style={{ flex: 1, padding: "7px 10px", border: "1px solid #e5e0d8", borderRadius: 8, fontSize: 13, outline: "none" }}
+            />
+            <button onClick={addCategory} style={{ padding: "7px 14px", background: "#1a1310", color: "#f59e0b", border: "none", borderRadius: 8, fontWeight: 800, fontSize: 13, cursor: "pointer" }}>
+              + Add
+            </button>
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
+            {cats.map(c => (
+              <span key={c} style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "#f0ebe4", borderRadius: 20, padding: "4px 10px", fontSize: 12, fontWeight: 600, color: "#4a3f35" }}>
+                {c}
+                <button onClick={() => deleteCategory(c)} style={{ background: "none", border: "none", cursor: "pointer", color: "#ef4444", fontWeight: 900, fontSize: 13, padding: 0, lineHeight: 1 }}>✕</button>
+              </span>
+            ))}
+          </div>
         </div>
         <div style={{ marginBottom: 16 }}>
           <label style={{ fontSize: 11, fontWeight: 700, color: "#8a7e6e", letterSpacing: 0.5, textTransform: "uppercase" }}>Unit</label>
@@ -1010,8 +1012,8 @@ function SalesView({ bills, onDelete, onDeleteAll, onEdit, products }) {
             <div style={{ fontSize: 12, color: "#8a7e6e" }}>{b.items?.length} items</div>
             {b.discountPct > 0 && <div style={{ fontSize: 12, color: "#f59e0b", fontWeight: 700 }}>🏷️ {b.discountPct}% off</div>}
             <div style={{ fontSize: 11, fontWeight: 800, padding: "3px 8px", borderRadius: 20, background: (b.paymentMode || "CASH") === "UPI" ? "#eff6ff" : "#f0fdf4", color: (b.paymentMode || "CASH") === "UPI" ? "#2563eb" : "#16a34a" }}>
-  {(b.paymentMode || "CASH") === "UPI" ? "📲 UPI" : "💵 CASH"}
-</div>
+              {(b.paymentMode || "CASH") === "UPI" ? "📲 UPI" : "💵 CASH"}
+            </div>
             <div style={{ textAlign: "right" }}>
               {formatINR(b.total)}
               <div style={{ fontSize: 11, color: "#16a34a" }}>+{formatINR(b.profit)} profit</div>
@@ -1251,7 +1253,7 @@ function AnalyticsView({ bills }) {
 // ─── CUSTOMERS VIEW ───────────────────────────────────────────────────────────
 function CustomersView({ customers, bills, setCart, setView }) {
   const [search, setSearch] = useState("");
-// search change hone par selected clear karo
+  // search change hone par selected clear karo
   const [selected, setSelected] = useState(null);
 
   const filtered = customers.filter(c =>
