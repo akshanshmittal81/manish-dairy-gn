@@ -162,7 +162,7 @@ function printBill(bill) {
   </style></head><body>
 
   <div class="center bold big">MANISH DAIRY</div>
-  <div class="center" style="font-size:11px;">Ganga Nagar, Meerut</div>
+  <div class="center" style="font-size:11px;">Jail Chungi, Meerut</div>
   <div class="center" style="font-size:11px;">Ph: +91-XXXXXXXXXX</div>
   <div class="divider-solid"></div>
 
@@ -238,8 +238,8 @@ export default function App() {
   const [products, setProducts] = useState([]);
   const [bills, setBills] = useState([]);
   const [customers, setCustomers] = useState([]);
-  const [dbCats, setDbCats] = useState([]);
-  const [loading, setLoading] = useState(true);
+const [dbCats, setDbCats] = useState([]);
+const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const [cart, setCart] = useState([]);
@@ -253,7 +253,7 @@ export default function App() {
     async function loadAll() {
       try {
         setLoading(true);
-        const [prods, bls, custs, cats] = await Promise.all([
+       const [prods, bls, custs, cats] = await Promise.all([
   apiCall("/products"),
   apiCall("/bills"),
   apiCall("/customers"),
@@ -416,8 +416,8 @@ setDbCats(cats);
         setToken(null);
       }} />
       <div style={{ padding: "24px", maxWidth: 1400, margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
-       {view === "billing" && <BillingView products={products} filtered={filtered} bills={bills} category={category} setCategory={setCategory} search={search} setSearch={setSearch} cart={cart} setCart={setCart} addToCart={addToCart} updateQty={updateQty} setQtyPreset={setQtyPreset} cartTotal={cartTotal} cartSubtotal={cartSubtotal} discountAmt={discountAmt} discount={discount} setDiscount={setDiscount} customerForm={customerForm} setCustomerForm={setCustomerForm} checkoutBill={checkoutBill} dbCats={dbCats} />}
-        {view === "products" && <ProductsView products={products} onSave={handleSaveProduct} onDelete={handleDeleteProduct} dbCats={dbCats} setDbCats={setDbCats} />}
+          {view === "billing" && <BillingView products={products} filtered={filtered} bills={bills} category={category} setCategory={setCategory} search={search} setSearch={setSearch} cart={cart} setCart={setCart} addToCart={addToCart} updateQty={updateQty} setQtyPreset={setQtyPreset} cartTotal={cartTotal} cartSubtotal={cartSubtotal} discountAmt={discountAmt} discount={discount} setDiscount={setDiscount} customerForm={customerForm} setCustomerForm={setCustomerForm} checkoutBill={checkoutBill} dbCats={dbCats} />}
+       {view === "products" && <ProductsView products={products} onSave={handleSaveProduct} onDelete={handleDeleteProduct} dbCats={dbCats} setDbCats={setDbCats} />}
         {view === "sales" && <SalesView bills={bills} onDelete={handleDeleteBill} onDeleteAll={handleDeleteAllBills} onEdit={handleEditBill} products={products} />}
         {view === "analytics" && <AnalyticsView bills={bills} />}
         {view === "customers" && <CustomersView customers={customers} bills={bills} setCart={setCart} setView={setView} />}
@@ -529,9 +529,9 @@ function BillingView({ products, filtered, bills, category, setCategory, search,
     <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 20, alignItems: "start" }}>
       <div style={{ display: "flex", gap: 16 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 4, width: 100, flexShrink: 0 }}>
-       {["All", ...["Dairy","Sweets","Snacks","Tandoor"], ...dbCats].map(c => (
+         {["All", ...["Dairy","Sweets","Snacks","Tandoor"], ...dbCats].map(c => (
             <button key={c} onClick={() => setCategory(c)} style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 5, padding: "12px 8px", borderRadius: 14, border: "2px solid", borderColor: category === c ? (CAT_COLORS[c] || "#f59e0b") : "#e5e0d8", background: category === c ? (CAT_COLORS[c] || "#f59e0b") : "#fff", color: category === c ? "#fff" : "#4a3f35", fontSize: 12, fontWeight: category === c ? 800 : 500, cursor: "pointer", transition: "all 0.15s", boxShadow: category === c ? `0 4px 12px ${(CAT_COLORS[c] || "#f59e0b")}44` : "none" }}>
-            <span style={{ fontSize: 20 }}>{CAT_ICONS[c] || "🏷️"}</span>
+             <span style={{ fontSize: 20 }}>{CAT_ICONS[c] || "🏷️"}</span>
               {c}
             </button>
           ))}
@@ -716,22 +716,21 @@ function ProductsView({ products, onSave, onDelete, dbCats, setDbCats }) {
   const [editing, setEditing] = useState(null);
   const [search, setSearch] = useState("");
   const [saving, setSaving] = useState(false);
-  const [cats, setCats] = useState([...DEFAULT_LIST, ...dbCats]);     // ← YEH ADD KARO
+const [cats, setCats] = useState([...["Dairy", "Sweets", "Snacks", "Tandoor"], ...dbCats]);      // ← YEH ADD KARO
   const [newCat, setNewCat] = useState("");    
   const addCategory = async () => {
-  const trimmed = newCat.trim();
-  if (!trimmed || cats.includes(trimmed)) return;
-  try {
-    await apiCall("/categories", "POST", { name: trimmed });
-    setDbCats(prev => [...prev, trimmed]);
-    setCats(prev => [...prev, trimmed]);
-    setNewCat("");
-  } catch (e) {
-    alert("Category save nahi hui: " + e.message);
-  }
-};
-
-const deleteCategory = async (catName) => {
+    const trimmed = newCat.trim();
+    if (!trimmed || cats.includes(trimmed)) return;
+    try {
+      await apiCall("/categories", "POST", { name: trimmed });
+      setDbCats(prev => [...prev, trimmed]);
+      setCats(prev => [...prev, trimmed]);
+      setNewCat("");
+    } catch (e) {
+      alert("Category save nahi hui: " + e.message);
+    }
+  };
+ const deleteCategory = async (catName) => {
   if (!window.confirm(`"${catName}" category delete karein?`)) return;
   try {
     await apiCall(`/categories/${catName}`, "DELETE");
@@ -743,7 +742,7 @@ const deleteCategory = async (catName) => {
 };
 
 const save = async () => {
-      if (!form.name || !form.price || !form.cost) return;
+    if (!form.name || !form.price || !form.cost) return;
     setSaving(true);
     const ok = await onSave(form, editing);
     if (ok) {
@@ -795,7 +794,7 @@ const save = async () => {
   </button>
 </div>
 <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
-  {cats.map(c => (
+ {cats.map(c => (
     <span key={c} style={{ display: "inline-flex", alignItems: "center", gap: 4, background: "#f0ebe4", borderRadius: 20, padding: "4px 10px", fontSize: 12, fontWeight: 600, color: "#4a3f35" }}>
       {c}
       <button onClick={() => deleteCategory(c)} style={{ background: "none", border: "none", cursor: "pointer", color: "#ef4444", fontWeight: 900, fontSize: 13, padding: 0, lineHeight: 1 }}>✕</button>
