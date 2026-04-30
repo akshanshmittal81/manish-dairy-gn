@@ -142,25 +142,29 @@ function printBill(bill) {
   w.document.write(`<!DOCTYPE html><html><head><style>
     @page { margin: 0; size: 80mm auto; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Courier New', monospace; font-size: 12px; width: 80mm; padding: 4mm; }
+    body { font-family: 'Courier New', monospace; font-size: 13px; width: 80mm; padding: 4mm; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .center { text-align: center; }
     .bold { font-weight: 900; }
-    .big { font-size: 16px; font-weight: 900; }
+    .big { font-size: 22px; font-weight: 900; letter-spacing: 1px; }
+    .shop-sub { font-size: 13px; font-weight: 900; }
+    .shop-addr { font-size: 12px; font-weight: 700; }
     .divider-solid { border-top: 2px solid #000; margin: 4px 0; }
     .divider-dash { border-top: 1px dashed #000; margin: 4px 0; }
-    .row { display: flex; justify-content: space-between; padding: 2px 0; }
-    .row-3 { display: flex; padding: 2px 0; }
-    .col-name { flex: 2.2; }
-    .col-qty { flex: 1; text-align: center; }
-    .col-amt { flex: 1; text-align: right; }
-    .total-row { display: flex; justify-content: space-between; font-size: 15px; font-weight: 900; padding: 4px 0; }
-    .footer { text-align: center; font-size: 11px; margin-top: 6px; }
-    @media print { button { display: none !important; } }
+    .row { display: flex; justify-content: space-between; padding: 2px 0; color: #000; font-weight: 700; }
+    .row-3 { display: flex; padding: 3px 0; color: #000; }
+    .col-name { flex: 2.2; font-size: 14px; font-weight: 900; color: #000; }
+    .col-qty { flex: 1; text-align: center; font-size: 14px; font-weight: 900; color: #000; }
+    .col-amt { flex: 1; text-align: right; font-size: 14px; font-weight: 900; color: #000; }
+    .header-row { font-size: 14px; font-weight: 900; color: #000; }
+    .total-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: 900; padding: 4px 0; color: #000; }
+    .payment-row { display: flex; justify-content: space-between; font-size: 14px; font-weight: 900; padding: 2px 0; color: #000; }
+    .footer { text-align: center; font-size: 12px; margin-top: 4px; font-weight: 700; color: #000; }
+    @media print { button { display: none !important; } * { color: #000 !important; } }
   </style></head><body>
 
   <div class="center bold big">MANISH DAIRY</div>
-  <div class="center" style="font-size:11px;">Jail Chungi, Meerut</div>
-  <div class="center" style="font-size:11px;">Ph: +91-XXXXXXXXXX</div>
+  <div class="center shop-sub">SWEETS AND NAMKEEN</div>
+  <div class="center shop-addr">Ganga Nagar, Meerut</div>
   <div class="divider-solid"></div>
 
   <div class="row"><span>Date:</span><span>${formatDate(bill.date)} ${formatTime(bill.date)}</span></div>
@@ -169,7 +173,7 @@ function printBill(bill) {
   ${bill.customer?.phone ? `<div class="row"><span>Phone:</span><span>${bill.customer.phone}</span></div>` : ""}
 
   <div class="divider-solid"></div>
-  <div class="row-3 bold">
+  <div class="row-3 header-row bold">
     <span class="col-name">Item</span>
     <span class="col-qty">Qty</span>
     <span class="col-amt">Amt</span>
@@ -192,14 +196,14 @@ function printBill(bill) {
   <div class="divider-solid"></div>
   <div class="total-row"><span>TOTAL</span><span>₹${bill.total.toFixed(2)}</span></div>
   <div class="divider-solid"></div>
-  <div class="row bold"><span>Payment:</span><span>${bill.paymentMode || "CASH"}</span></div>
+  <div class="payment-row"><span>Payment:</span><span>${bill.paymentMode || "CASH"}</span></div>
 
   <div class="divider-dash"></div>
   <div class="footer">Thank you for visiting!</div>
   <div class="footer">Manish Dairy - Quality Since Day One</div>
   <div class="footer">Ganga Nagar, Meerut</div>
   <br/>
-  <button onclick="window.print()" style="width:100%;padding:8px;background:#000;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:14px;font-weight:900;">🖨️ Print</button>
+  <button onclick="window.print()" style="width:100%;padding:8px;background:#000;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:14px;font-weight:900;">Print</button>
   </body></html>`);
   w.document.close();
   setTimeout(() => w.print(), 500);
@@ -418,6 +422,17 @@ setDbCats(cats);
         {view === "sales" && <SalesView bills={bills} onDelete={handleDeleteBill} onDeleteAll={handleDeleteAllBills} onEdit={handleEditBill} products={products} />}
         {view === "analytics" && <AnalyticsView bills={bills} />}
         {view === "customers" && <CustomersView customers={customers} bills={bills} setCart={setCart} setView={setView} />}
+      </div>
+      {/* Footer */}
+      <div style={{
+        backgroundColor: "#1a1310",
+        color: "#f5f0eb",
+        textAlign: "center",
+        padding: "14px",
+        fontSize: "13px"
+      }}>
+        Developed by <strong style={{ color: "#f59e0b" }}>Aniket Kansal</strong> & <strong style={{ color: "#f59e0b" }}>Akshansh Mittal</strong>
+        &nbsp;|&nbsp; 📞 +91-8126700718 & +91-8766392706
       </div>
     </div>
   );
